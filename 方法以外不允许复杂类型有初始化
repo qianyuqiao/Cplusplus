@@ -1,0 +1,8 @@
+c++的类体中，方法以外的区域不允许有初始化，简单类型是可以的，但是有构造函数的复杂对象则不行了，比如string对象！
+
+class A{
+
+    vector<string> v(9);  //error,expected identifier before numeric constant
+public:
+void test(){}
+};
