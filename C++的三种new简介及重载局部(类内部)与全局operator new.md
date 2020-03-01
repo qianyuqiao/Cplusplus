@@ -1,3 +1,5 @@
+参考文档：[C++的三种new简介及重载局部（类内部）与全局operator new](https://blog.csdn.net/qq_29227939/article/details/51638241)
+[深入new/delete：Operator new的全局重载](https://www.cnblogs.com/dragon2012/p/3571838.html)
 ## 1.概念
 ### new操作符
 ```
