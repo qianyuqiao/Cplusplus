@@ -59,3 +59,9 @@ public:
     p->~A();
     return 0;
 ```
+3. 可重载性？
+```
+operator new既可以被全局重载也可以被局部重载
+placement new只能被局部重载，比如使用如下的重载形式
+void *operator new(std::size_t count, void *ptr) throw();  //placement 版本
+```
