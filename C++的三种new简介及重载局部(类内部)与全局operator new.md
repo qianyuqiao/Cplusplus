@@ -62,18 +62,22 @@ public:
     return 0;
 ```
 3. 可重载性？
+operator new既可以被全局重载也可以被局部重载,有以下几点要求
 ```
-operator new既可以被全局重载也可以被局部重载
+1.void* operator new(size_t size, 后面随便啦)第一个参数必须是size_t
+2.返回类型必须是void*
+```
 placement new只能被局部重载，比如使用如下的重载形式
+```
 void *operator new(std::size_t count, void *ptr) throw();  //placement 版本
-如果replacement重载，必须返回一个地址，<br>
-这个地址是执行构造函数后新对象所在的地址，如
+如果replacement重载，必须返回一个void*，<br>
+这个地址是执行构造函数后新对象存放的地址，如
 void* operator new(size_t size, void* p)
 {
     cout << "replacement new" << endl;
     return p;
 }
-可以检测：
+可以检测这个时候新对象覆盖在了原来的地址上：
     void* buf = malloc(sizeof(A)+sizeof(int));
     cout << "addr of buf " << buf << endl;
     A* p = new(buf) A;
