@@ -66,4 +66,30 @@ public:
 operator new既可以被全局重载也可以被局部重载
 placement new只能被局部重载，比如使用如下的重载形式
 void *operator new(std::size_t count, void *ptr) throw();  //placement 版本
+如果replacement重载，必须返回一个地址，<br>
+这个地址是执行构造函数后新对象所在的地址，如
+void* operator new(size_t size, void* p)
+{
+    cout << "replacement new" << endl;
+    return p;
+}
+可以检测：
+    void* buf = malloc(sizeof(A)+sizeof(int));
+    cout << "addr of buf " << buf << endl;
+    A* p = new(buf) A;
+    cout << "addr of p " << p << endl;
+    p->~A();
+    free(buf);
+结果：
+addr of buf 0xaf0030
+addr of p 0xaf0030
+当然，很有意思的一点是，如果重载replacement new后的返回的地址不是p,那么对象会新建在这个新地址上
+void* operator new(size_t size, void* p)
+{
+    cout << "replacement new" << endl;
+    return malloc(size);
+}
+结果：
+addr of buf 0x195f030
+addr of p 0x195f050//对象新建在新地址上
 ```
