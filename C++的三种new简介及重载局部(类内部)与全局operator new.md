@@ -9,7 +9,7 @@ new operator新建一个对象时，操作如下：
 2.调用构造函数生成类对象
 3.返回对应类型的指针
 ```
-### operator new
+### operator new是一个库函数
 ```
 原型是 void* operator new(size_t size)
 size指定分配内存的大小，函数内部调用malloc分配内存大小，返回指向内存的指针
@@ -97,3 +97,21 @@ void* operator new(size_t size, void* p)
 addr of buf 0x195f030
 addr of p 0x195f050//对象新建在新地址上
 ```
+4.使用replacement new时不能使用delete,否则会直接释放这块内存
+```
+    A *a = new A;
+    a->c = 'x';
+    A *p = new(a) A;
+    cout << (p->c) << endl;
+    delete(p);
+    cout <<(p->c) << endl;
+    return 0;
+```
+结果：
+```
+x
+
+
+```
+内存被清空了。。。
+5.C++11的新特性allocator也能实现开辟内存和调用构造函数的分离。
