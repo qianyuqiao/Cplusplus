@@ -23,3 +23,18 @@ public:
     }
 };
 ```
+显式声明：
+```
+class Q
+{
+public:
+	int val;
+	explicit Q(int a) {
+		val = a;
+	}
+};
+int main(void)
+{
+	Q q = 1;//报错
+```
+
