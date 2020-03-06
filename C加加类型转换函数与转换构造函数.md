@@ -68,6 +68,7 @@ Value v = q这一句既可以理解为参数是q的转换构造函数，也可�
 所以需要显式声明
 
 ### 隐式类型转换规则
+!(image)[https://github.com/qianyuqiao/Cplusplus/blob/master/img/leixing.png]
 ```
 	short s = 'a';
 	unsigned int ui = 1000;
@@ -85,3 +86,4 @@ d = -2000
 ui + i = 4294966296
 sizeof(s + 'b') = 4 //扩展位数。。。
 ```
+
