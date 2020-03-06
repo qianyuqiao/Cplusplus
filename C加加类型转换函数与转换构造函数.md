@@ -68,3 +68,20 @@ Value v = q这一句既可以理解为参数是q的转换构造函数，也可�
 所以需要显式声明
 
 ### 隐式类型转换规则
+```
+	short s = 'a';
+	unsigned int ui = 1000;
+	int i = -2000;
+	double d = i;
+
+	//自己先想一下输出结果，会是什么
+	cout << "d = " << d << endl; 
+	cout << "ui + i = " << ui + i << endl;
+	cout << "sizeof(s + 'b') = " << sizeof(s + 'b') << endl;
+```
+结果
+```
+d = -2000
+ui + i = 4294966296
+sizeof(s + 'b') = 4 //扩展位数。。。
+```
