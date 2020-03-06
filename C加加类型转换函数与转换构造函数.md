@@ -38,3 +38,33 @@ int main(void)
 	Q q = 1;//报错
 ```
 
+### 类型转换函数
+```
+class Value
+{
+public:
+	Value(){}
+	explicit Value(Q & q){}
+};
+class Q
+{
+public:
+	int val;
+	operator Value()
+	{
+		Value val;
+		cout << "??" << endl;
+ 		return val;
+	}
+};
+int main(void)
+{
+	Q q;
+	Value v = q;
+	return 0;
+}
+```
+Value v = q这一句既可以理解为参数是q的转换构造函数，也可以理解为把q转化为Value的类型转换函数<br>
+所以需要显式声明
+
+### 隐式类型转换规则
