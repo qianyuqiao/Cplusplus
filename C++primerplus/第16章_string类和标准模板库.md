@@ -1,7 +1,7 @@
 ### 智能指针不能作用于非堆内存
 ```
 string vacation("Havana"); // .text
-shared_ptr<string> pvac(&vacation);
+shared_ptr<string> pvac(&vacation); // 运行时报错
 ```
 
 ### string类的构造函数
@@ -141,3 +141,46 @@ pd = shared_ptr<double>(p_reg); // OK
 shared_ptr<double> pshared = p_reg; // 错误，必须隐式转换
 shared_ptr<double> pshare(p_reg); // 正确
 ```
+
+### 智能指针使用过程中的问题
+1.运行时报错
+```
+auto_ptr<int> ptr(new int(1));
+auto_ptr<int> ptr1;
+ptr1 = ptr; // 转移了控制权，现在ptr = NULL;
+cout << *ptr << endl; // 运行段错误
+```
+解决方法
+```
+1.定义赋值运算符，执行深拷贝
+2.建立所有权的概念，特定对象只有一个智能指针拥有它，
+这样构造函数可以删除它，之后赋值操作符转让所有权（这个也是unique_ptr的策略）
+3.引用计数，赋值时，计数加1,过期时计数减1，仅仅当最后一个指针过期时删除堆内存。（shared_ptr）
+```
+
+### 编译时报错
+```
+unique_ptr<string> ptr(new string("123"));
+unique_ptr<string> ptr1;
+ptr1 = ptr; // 编译报错
+```
+
+### unique_ptr优于auto_ptr
+```
+1.所有权剥夺问题可以在编译过程中报错
+auto_ptr<string> p1(new string("auto"));
+auto_ptr<string> p2;
+p2 = p1; // 运行报错
+
+unique_ptr<string> p1(new string("auto"));
+unique_ptr<string> p2;
+p2 = p1; // 编译报错
+
+2.unique_ptr支持数组,new[]和delete[]操作
+unique_ptr<double[]> pda(new double[5]); // will use delete[]
+```
+
+### new[]不能用shared_ptr和auto_ptr
+
+### 多个指针： shared_ptr
+### 不需要多个指针： unique_ptr
