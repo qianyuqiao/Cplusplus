@@ -1,3 +1,9 @@
+### 智能指针不能作用于非堆内存
+```
+string vacation("Havana"); // .text
+shared_ptr<string> pvac(&vacation);
+```
+
 ### string类的构造函数
 ```
 string():
@@ -68,6 +74,70 @@ s1 < s2 // s1的最后是'\0';
 ```
 
 ### 智能指针模板类
+普通指针与智能指针的区别，先看看普通指针
+```
+void demo1
+{
+    double* pd = new double; // 申请内存
+    *pd = 1.0; // 将值分配到动态内存中
+    return; // 释放指针pd;
+}
+```
+再看看智能指针
+```
+#include <memory>
+void demo2()
+{
+    auto_ptr<double> ap(new double); // 申请内存
+    *ap = 1.0; // 赋值
+    return; // 释放动态内存
+}
+```
+智能指针的模板
+```
+template<class X> class auto_ptr
+{
+public:
+    explicit auto_ptr(X* p = 0) throw();
+}
+```
+ ### 其他两种智能指针
+```
+unique_ptr<double> pdu(new double);
+shared_ptr<string> pss(new string);
 ```
 
+### 下面的函数可能导致内存泄漏
+```
+void remode1(string& str)
+{
+   string* ps = new string(str);
+   if (...) throw exception(); // 如果分配内存出错，会导致刚刚分配的内存泄漏
+   str = *ps;
+   delete ps;
+   return;
+}
+```
+
+### 利用auto_ptr修改改函数
+```
+#include <memory>
+void remode1(std::string& str)
+{
+    auto_ptr<std::string> ps (new std::string(str));
+    .....
+    if (weird_thing()) throw exception(); // 即使离开代码块，内存也会被释放
+    str = *ps;
+    return;
+}
+```
+
+### 智能指针类都是有explicit构造函数，不能隐式构造
+```
+shared_ptr<double> pd;
+double* p_reg = new double;
+pd = p_reg; // 错误
+pd = shared_ptr<double>(p_reg); // OK
+shared_ptr<double> pshared = p_reg; // 错误，必须隐式转换
+shared_ptr<double> pshare(p_reg); // 正确
 ```
