@@ -147,7 +147,7 @@ shared_ptr<double> pshare(p_reg); // 正确
 ```
 auto_ptr<int> ptr(new int(1));
 auto_ptr<int> ptr1;
-ptr1 = ptr; // 转移了控制权，现在ptr = NULL;
+ptr1 = ptr; // 不支持拷贝和赋值
 cout << *ptr << endl; // 运行段错误
 ```
 解决方法
@@ -162,7 +162,7 @@ cout << *ptr << endl; // 运行段错误
 ```
 unique_ptr<string> ptr(new string("123"));
 unique_ptr<string> ptr1;
-ptr1 = ptr; // 编译报错
+ptr1 = ptr; // 编译报错，不支持拷贝和赋值
 ```
 
 ### unique_ptr优于auto_ptr
