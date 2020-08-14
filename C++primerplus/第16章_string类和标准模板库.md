@@ -178,6 +178,8 @@ auto_ptr<string> p3(p1); // 运行报错
 unique_ptr<string> p1(new string("auto"));
 unique_ptr<string> p2;
 p2 = p1; // 编译报错
+// 改成下面的就行了
+p2 = move(p1);
 unique_ptr<string> p3(p1); // 编译报错
 
 2.unique_ptr支持数组,new[]和delete[]操作
@@ -213,5 +215,6 @@ int main()
 
 ### new[]不能用shared_ptr和auto_ptr
 
-### 多个指针： shared_ptr
-### 不需要多个指针： unique_ptr
+### 多个指针的话就用shared_ptr， 不需要多个指针： unique_ptr
+
+
