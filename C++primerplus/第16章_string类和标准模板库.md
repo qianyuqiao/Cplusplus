@@ -173,13 +173,42 @@ ptr1 = ptr; // 编译报错，不支持拷贝和赋值
 auto_ptr<string> p1(new string("auto"));
 auto_ptr<string> p2;
 p2 = p1; // 运行报错
+auto_ptr<string> p3(p1); // 运行报错
 
 unique_ptr<string> p1(new string("auto"));
 unique_ptr<string> p2;
 p2 = p1; // 编译报错
+unique_ptr<string> p3(p1); // 编译报错
 
 2.unique_ptr支持数组,new[]和delete[]操作
 unique_ptr<double[]> pda(new double[5]); // will use delete[]
+```
+
+### shared_ptr支持拷贝和赋值
+下面这段代码是一点问题都没有的
+```
+#include <iostream>
+#include <memory>
+using namespace std;
+
+class A
+{
+public:
+    A(){};
+    ~A() {cout << "~A " << endl;}
+
+    void print() {cout << "print A" << endl;}
+};
+
+int main()
+{
+    shared_ptr<A> pa(new A);
+    shared_ptr<A> pa1 = pa;
+    shared_ptr<A> pa2(pa);
+    pa1->print();
+    pa2->print();
+    return 0;
+}
 ```
 
 ### new[]不能用shared_ptr和auto_ptr
